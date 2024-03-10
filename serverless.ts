@@ -13,7 +13,12 @@ const serverlessConfiguration: AWS = {
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: ['cognito-idp:InitiateAuth'],
+        Action: [
+          'cognito-idp:InitiateAuth',
+          'cognito-idp:AdminCreateUser',
+          'cognito-idp:AdminUpdateUserAttributes',
+          'cognito-idp:AdminSetUserPassword',
+        ],
         Resource: '*',
       },
     ],
