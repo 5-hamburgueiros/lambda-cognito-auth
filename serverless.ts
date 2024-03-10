@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript';
 
 import token from '@functions/token';
 import signUp from '@functions/signUp';
+import preSignUp from '@functions/preSignUp';
 
 const serverlessConfiguration: AWS = {
   service: 'lambda-cognito-auth',
@@ -33,7 +34,7 @@ const serverlessConfiguration: AWS = {
       COGNITO_USER_POOL_ID: '${env:COGNITO_USER_POOL_ID}',
     },
   },
-  functions: { token, signUp },
+  functions: { token, signUp, preSignUp },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -45,6 +46,62 @@ const serverlessConfiguration: AWS = {
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
+    },
+  },
+  resources: {
+    Resources: {
+      DocumentNumberUserPool: {
+        Type: 'AWS::Cognito::UserPool',
+        Properties: {
+          UsernameConfiguration: {
+            CaseSensitive: false,
+          },
+          UsernameAttributes: ['cpf'],
+          Policies: {
+            PasswordPolicy: {
+              MinimumLength: 8,
+              RequireLowercase: true,
+              RequireNumbers: true,
+              RequireUppercase: true,
+              RequireSymbols: true,
+            },
+          },
+          Schema: [
+            {
+              AttributeDataType: 'String',
+              Mutable: false,
+              Required: true,
+              Name: 'cpf',
+              StringAttributeConstraints: {
+                MinLength: '8',
+              },
+            },
+          ],
+          LambdaConfig: {
+            PreSignUp: { Ref: 'UserPoolPreSignUpLambdaFunction' },
+          },
+        },
+      },
+      WebUserPoolClient: {
+        Type: 'AWS::Cognito::UserPoolClient',
+        Properties: {
+          ClientName: 'web',
+          UserPoolId: { Ref: 'DocumentNumberUserPool' },
+          ExplicitAuthFlows: ['ALLOW_CUSTOM_AUTH', 'ALLOW_REFRESH_TOKEN_AUTH'],
+          PreventUserExistenceErrors: 'ENABLED',
+        },
+      },
+      UserPoolPreSignUpLambdaPermission: {
+        Type: 'AWS::Lambda::Permission',
+        Properties: {
+          Action: 'lambda:invokeFunction',
+          Principal: 'cognito-idp.amazonaws.com',
+          FunctionName: { Ref: 'UserPoolPreSignUpLambdaFunction' },
+          SourceArn: {
+            'Fn::GetAtt': ['DocumentNumberUserPool', 'Arn'],
+          },
+        },
+      },
     },
   },
 };

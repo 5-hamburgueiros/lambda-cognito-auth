@@ -49,7 +49,7 @@ const handle: ValidatedEventAPIGatewayProxyEvent<zod> = async (event) => {
     };
 
     const setUserPasswordCommand = new AdminSetUserPasswordCommand(setUserPasswordParams);
-    await cognitoClient.send(setUserPasswordCommand);
+    // await cognitoClient.send(setUserPasswordCommand);
 
     const verifyEmailParams = {
       UserPoolId: process.env.COGNITO_USER_POOL_ID,
