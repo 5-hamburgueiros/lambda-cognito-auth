@@ -8,16 +8,11 @@ import { middyfy } from '@libs/lambda';
 import { z } from 'zod';
 import 'dotenv/config';
 import { cognitoClient } from '@libs/cognito';
+import { cpfSchema, cpfSchemaType } from '@/schema';
 
-const schema = z.object({
-  cpf: z.string(),
-});
-
-type schemaType = z.infer<typeof schema>;
-
-const handle: ValidatedEventAPIGatewayProxyEvent<schemaType> = async (event) => {
+const handle: ValidatedEventAPIGatewayProxyEvent<cpfSchemaType> = async (event) => {
   try {
-    const { cpf } = schema.parse(event.body);
+    const { cpf } = cpfSchema.parse(event.body);
     const command = new InitiateAuthCommand({
       AuthFlow: 'CUSTOM_AUTH',
       ClientId: process.env.COGNITO_CLIENT_ID,

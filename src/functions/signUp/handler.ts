@@ -1,19 +1,18 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { AdminCreateUserCommand, AdminCreateUserCommandInput } from '@aws-sdk/client-cognito-identity-provider';
+import {
+  AdminCreateUserCommand,
+  AdminCreateUserCommandInput,
+  UsernameExistsException,
+} from '@aws-sdk/client-cognito-identity-provider';
 import 'dotenv/config';
 import { middyfy } from '@libs/lambda';
 import { z } from 'zod';
 import { cognitoClient } from '@libs/cognito';
+import { cpfSchema, cpfSchemaType } from '@/schema';
 
-const signUpSchema = z.object({
-  cpf: z.string(),
-});
-
-type zod = z.infer<typeof signUpSchema>;
-
-const handle: ValidatedEventAPIGatewayProxyEvent<zod> = async (event) => {
+const handle: ValidatedEventAPIGatewayProxyEvent<cpfSchemaType> = async (event) => {
   try {
-    const { cpf } = signUpSchema.parse(event.body);
+    const { cpf } = cpfSchema.parse(event.body);
     const createUserParams: AdminCreateUserCommandInput = {
       UserPoolId: process.env.COGNITO_USER_POOL_ID,
       Username: cpf,
@@ -22,20 +21,6 @@ const handle: ValidatedEventAPIGatewayProxyEvent<zod> = async (event) => {
 
     const command = new AdminCreateUserCommand(createUserParams);
     await cognitoClient.send(command);
-
-    // const verifyEmailParams = {
-    //   UserPoolId: process.env.COGNITO_USER_POOL_ID,
-    //   Username: cpf,
-    //   UserAttributes: [
-    //     {
-    //       Name: 'email_verified',
-    //       Value: 'true',
-    //     },
-    //   ],
-    // };
-
-    // const verifyEmailCommand = new AdminUpdateUserAttributesCommand(verifyEmailParams);
-    // await cognitoClient.send(verifyEmailCommand);
 
     return {
       statusCode: 201,
@@ -47,6 +32,12 @@ const handle: ValidatedEventAPIGatewayProxyEvent<zod> = async (event) => {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: error.issues }),
+      };
+    }
+    if (error instanceof UsernameExistsException) {
+      return {
+        statusCode: 409,
+        body: JSON.stringify({ error: 'User already exists' }),
       };
     }
     return {
