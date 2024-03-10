@@ -1,5 +1,5 @@
 {
-  "name": "sver",
+  "name": "auth-service-tech-challenge",
   "version": "1.0.0",
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
