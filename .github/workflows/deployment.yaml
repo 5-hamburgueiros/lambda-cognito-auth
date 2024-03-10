@@ -20,5 +20,5 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy to AWS
-        run: npx serverless deploy
+        run: npm install ts-node -g && npm install serverless -g && npm install && npx serverless deploy
  
