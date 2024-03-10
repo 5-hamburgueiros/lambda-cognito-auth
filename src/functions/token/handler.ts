@@ -1,5 +1,9 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { InitiateAuthCommand, NotAuthorizedException } from '@aws-sdk/client-cognito-identity-provider';
+import {
+  InitiateAuthCommand,
+  NotAuthorizedException,
+  UserNotFoundException,
+} from '@aws-sdk/client-cognito-identity-provider';
 import { middyfy } from '@libs/lambda';
 import { z } from 'zod';
 import 'dotenv/config';
@@ -48,6 +52,13 @@ const handle: ValidatedEventAPIGatewayProxyEvent<schemaType> = async (event) => 
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Invalid credentials' }),
+      };
+    }
+
+    if (error instanceof UserNotFoundException) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: 'User not found' }),
       };
     }
 

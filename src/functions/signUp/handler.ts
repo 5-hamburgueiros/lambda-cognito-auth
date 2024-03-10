@@ -15,7 +15,7 @@ const handle: ValidatedEventAPIGatewayProxyEvent<zod> = async (event) => {
   try {
     const { cpf } = signUpSchema.parse(event.body);
     const createUserParams: AdminCreateUserCommandInput = {
-      UserPoolId: 'us-east-1_aVmQIZ4Cj',
+      UserPoolId: process.env.COGNITO_USER_POOL_ID,
       Username: cpf,
       TemporaryPassword: 'Temp1234!',
     };
