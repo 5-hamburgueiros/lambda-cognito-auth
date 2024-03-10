@@ -21,4 +21,7 @@ jobs:
 
       - name: Deploy to AWS
         run: npm install ts-node -g && npm install serverless -g && npm install && npx serverless deploy
+        env: 
+          COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
+          COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
  

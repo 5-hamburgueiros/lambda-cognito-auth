@@ -24,6 +24,8 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      COGNITO_CLIENT_ID: '${env:COGNITO_CLIENT_ID}',
+      COGNITO_USER_POOL_ID: '${env:COGNITO_USER_POOL_ID}',
     },
   },
   functions: { token, signUp },
