@@ -27,7 +27,7 @@ resources:
         UsernameConfiguration:
           CaseSensitive: false
         UsernameAttributes:
-          - cpf
+          - email
         Policies:
           # this is only to satisfy Cognito requirements
           # we won't be using passwords, but we also don't
@@ -42,8 +42,14 @@ resources:
           - AttributeDataType: String
             Mutable: false
             Required: true
-            Name: cpf
+            Name: email
             StringAttributeConstraints: 
               MinLength: '8'
+          - AttributeDataType: String
+            Mutable: false
+            Required: true
+            Name: cpf
+            StringAttributeConstraints: 
+              MinLength: '11'
         LambdaConfig:
           PreSignUp: !GetAtt PreSignUpLambdaFunction.Arn
