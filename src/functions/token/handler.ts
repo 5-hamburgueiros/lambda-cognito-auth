@@ -1,37 +1,31 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import {
-  CognitoIdentityProviderClient,
-  InitiateAuthCommand,
-  NotAuthorizedException,
-} from '@aws-sdk/client-cognito-identity-provider';
+import { InitiateAuthCommand, NotAuthorizedException } from '@aws-sdk/client-cognito-identity-provider';
 import { middyfy } from '@libs/lambda';
 import { z } from 'zod';
 import 'dotenv/config';
+import { cognitoClient } from '@libs/cognito';
 
-const cognitoClient = new CognitoIdentityProviderClient({ region: 'us-east-1' });
 const schema = z.object({
-  email: z.string(),
-  password: z.string(),
+  cpf: z.string(),
 });
 
 type schemaType = z.infer<typeof schema>;
 
 const handle: ValidatedEventAPIGatewayProxyEvent<schemaType> = async (event) => {
   try {
-    const { email, password } = schema.parse(event.body);
+    const { cpf } = schema.parse(event.body);
     const command = new InitiateAuthCommand({
-      AuthFlow: 'USER_PASSWORD_AUTH',
+      AuthFlow: 'CUSTOM_AUTH',
       ClientId: process.env.COGNITO_CLIENT_ID,
       AuthParameters: {
-        USERNAME: email,
-        PASSWORD: password,
+        USERNAME: cpf,
       },
     });
 
     const { AuthenticationResult } = await cognitoClient.send(command);
 
     const payload = {
-      accessToken: AuthenticationResult?.IdToken,
+      accessToken: AuthenticationResult?.AccessToken,
       refreshToken: AuthenticationResult?.RefreshToken,
       type: AuthenticationResult?.TokenType,
       expiresIn: AuthenticationResult?.ExpiresIn,
