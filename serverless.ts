@@ -3,6 +3,9 @@ import type { AWS } from '@serverless/typescript';
 import token from '@functions/token';
 import signUp from '@functions/signUp';
 import preSignUp from '@functions/preSignUp';
+import createChallenge from '@functions/createChallenge';
+import defineChallenge from '@functions/defineChallenge';
+import verifyAuthChallenge from '@functions/verifyAuthChallenge';
 
 const serverlessConfiguration: AWS = {
   service: 'lambda-cognito-auth',
@@ -34,7 +37,7 @@ const serverlessConfiguration: AWS = {
       COGNITO_USER_POOL_ID: '${env:COGNITO_USER_POOL_ID}',
     },
   },
-  functions: { token, signUp, preSignUp },
+  functions: { token, signUp, preSignUp, createChallenge, defineChallenge, verifyAuthChallenge },
   package: { individually: true },
   custom: {
     esbuild: {
