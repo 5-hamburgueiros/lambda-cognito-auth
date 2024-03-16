@@ -1,4 +1,4 @@
-const handle = async (event) => {
+export const handle = async (event) => {
   const cpf = event?.request?.privateChallengeParameters?.cpf;
   if (event.request.challengeAnswer === cpf) {
     event.response.answerCorrect = true;

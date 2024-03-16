@@ -1,4 +1,3 @@
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import {
   InitiateAuthCommand,
   NotAuthorizedException,
@@ -8,9 +7,9 @@ import { middyfy } from '@libs/lambda';
 import { z } from 'zod';
 import 'dotenv/config';
 import { cognitoClient } from '@libs/cognito';
-import { cpfSchema, cpfSchemaType } from '@/schema';
+import { cpfSchema } from '@/schema';
 
-const handle: ValidatedEventAPIGatewayProxyEvent<cpfSchemaType> = async (event) => {
+export const handle = async (event) => {
   try {
     const { cpf } = cpfSchema.parse(event.body);
     const command = new InitiateAuthCommand({
@@ -34,8 +33,6 @@ const handle: ValidatedEventAPIGatewayProxyEvent<cpfSchemaType> = async (event) 
       body: JSON.stringify(payload),
     };
   } catch (error) {
-    console.error('Error:', error);
-
     if (error instanceof z.ZodError) {
       return {
         statusCode: 400,

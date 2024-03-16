@@ -1,4 +1,3 @@
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import {
   AdminCreateUserCommand,
   AdminCreateUserCommandInput,
@@ -8,9 +7,10 @@ import 'dotenv/config';
 import { middyfy } from '@libs/lambda';
 import { z } from 'zod';
 import { cognitoClient } from '@libs/cognito';
-import { cpfSchema, cpfSchemaType } from '@/schema';
+import { cpfSchema } from '@/schema';
+import { APIGatewayProxyResult } from 'aws-lambda';
 
-const handle: ValidatedEventAPIGatewayProxyEvent<cpfSchemaType> = async (event) => {
+export const handle = async (event) => {
   try {
     const { cpf } = cpfSchema.parse(event.body);
     const createUserParams: AdminCreateUserCommandInput = {
@@ -25,25 +25,24 @@ const handle: ValidatedEventAPIGatewayProxyEvent<cpfSchemaType> = async (event) 
     return {
       statusCode: 201,
       body: JSON.stringify({ message: 'User created successfully' }),
-    };
+    } satisfies APIGatewayProxyResult;
   } catch (error) {
-    console.error(error);
     if (error instanceof z.ZodError) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: error.issues }),
-      };
+      } satisfies APIGatewayProxyResult;
     }
     if (error instanceof UsernameExistsException) {
       return {
         statusCode: 409,
         body: JSON.stringify({ error: 'User already exists' }),
-      };
+      } satisfies APIGatewayProxyResult;
     }
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Internal server error' }),
-    };
+    } satisfies APIGatewayProxyResult;
   }
 };
 

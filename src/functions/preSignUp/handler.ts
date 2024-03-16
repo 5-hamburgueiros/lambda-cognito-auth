@@ -1,4 +1,4 @@
-const handle = async (event) => {
+export const handle = async (event) => {
   event.response.autoConfirmUser = true;
   return event;
 };

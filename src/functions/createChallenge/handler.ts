@@ -1,4 +1,4 @@
-const handle = async (event) => {
+export const handle = async (event: any) => {
   if (!event.request.userAttributes.cpf) {
     throw new Error('missing cpf');
   }

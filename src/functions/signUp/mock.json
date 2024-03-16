@@ -1,0 +1,92 @@
+{
+  "body": {
+    "cpf": "43106111804"
+  },
+  "headers": {
+    "Content-Type": "application/json",
+    "User-Agent": "PostmanRuntime/7.37.0",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "e787568e-1953-4b2a-af64-68f25c3ab507",
+    "Host": "localhost:3000",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Length": "30"
+  },
+  "httpMethod": "POST",
+  "isBase64Encoded": false,
+  "multiValueHeaders": {
+    "Content-Type": [
+      "application/json"
+    ],
+    "User-Agent": [
+      "PostmanRuntime/7.37.0"
+    ],
+    "Accept": [
+      "*/*"
+    ],
+    "Cache-Control": [
+      "no-cache"
+    ],
+    "Postman-Token": [
+      "e787568e-1953-4b2a-af64-68f25c3ab507"
+    ],
+    "Host": [
+      "localhost:3000"
+    ],
+    "Accept-Encoding": [
+      "gzip, deflate, br"
+    ],
+    "Connection": [
+      "keep-alive"
+    ],
+    "Content-Length": [
+      "30"
+    ]
+  },
+  "multiValueQueryStringParameters": null,
+  "path": "/sign-up",
+  "pathParameters": null,
+  "queryStringParameters": null,
+  "requestContext": {
+    "accountId": "offlineContext_accountId",
+    "apiId": "offlineContext_apiId",
+    "authorizer": {
+      "claims": null,
+      "principalId": "offlineContext_authorizer_principalId",
+      "scopes": null
+    },
+    "domainName": "offlineContext_domainName",
+    "domainPrefix": "offlineContext_domainPrefix",
+    "extendedRequestId": "d51d78a6-414e-4ab4-ac0a-db7970de015f",
+    "httpMethod": "POST",
+    "identity": {
+      "accessKey": null,
+      "accountId": "offlineContext_accountId",
+      "apiKey": "offlineContext_apiKey",
+      "apiKeyId": "offlineContext_apiKeyId",
+      "caller": "offlineContext_caller",
+      "cognitoAuthenticationProvider": "offlineContext_cognitoAuthenticationProvider",
+      "cognitoAuthenticationType": "offlineContext_cognitoAuthenticationType",
+      "cognitoIdentityId": "offlineContext_cognitoIdentityId",
+      "cognitoIdentityPoolId": "offlineContext_cognitoIdentityPoolId",
+      "principalOrgId": null,
+      "sourceIp": "127.0.0.1",
+      "user": "offlineContext_user",
+      "userAgent": "PostmanRuntime/7.37.0",
+      "userArn": "offlineContext_userArn"
+    },
+    "operationName": null,
+    "path": "/sign-up",
+    "protocol": "HTTP/1.1",
+    "requestId": "b838c019-d5df-494b-80c9-dcc77087ab40",
+    "requestTime": "15/Mar/2024:14:51:49 -0300",
+    "requestTimeEpoch": 1710525109723,
+    "resourceId": "offlineContext_resourceId",
+    "resourcePath": "/dev/sign-up",
+    "stage": "dev"
+  },
+  "resource": "/sign-up",
+  "stageVariables": null,
+  "rawBody": "{\r\n    \"cpf\": \"43106111804\"\r\n}"
+}
