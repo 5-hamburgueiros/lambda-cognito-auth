@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  ci:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,7 +18,7 @@ jobs:
       - name: Run tests
         run: yarn test:ci
 
-  cd:
+  deploy:
     needs: ci
     runs-on: ubuntu-latest
     steps:
