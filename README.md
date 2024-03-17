@@ -27,7 +27,6 @@ Depending on your preferred package manager, follow the instructions below to de
 
 ### Locally
 
-In order to test the hello function locally, run the following command:
 
 - `npx sls offline
 
@@ -45,18 +44,33 @@ The project code base is mainly located within the `src` folder. This folder is 
 .
 ├── src
 │   ├── functions               # Lambda configuration and source code folder
-│   │   ├── hello
-│   │   │   ├── handler.ts      # `Hello` lambda source code
-│   │   │   ├── index.ts        # `Hello` lambda Serverless configuration
-│   │   │   ├── mock.json       # `Hello` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `Hello` lambda input event JSON-Schema
+│   │   ├── singUp
+│   │   │   ├── handler.ts      # `SingUp` lambda source code
+│   │   │   ├── index.ts        # `SingUp` lambda Serverless configuration
+│   │   │   ├── mock.json       # `SingUp` lambda input parameter, if any, for local invocation
+│   │   ├── token
+│   │   │   ├── handler.ts      # `Token` lambda source code
+│   │   │   ├── index.ts        # `Token` lambda Serverless configuration
+│   │   │   ├── mock.json       # `Token` lambda input parameter, if any, for local invocation
+│   │   ├── preSingUp
+│   │   │   ├── handler.ts      # `PreSingUp` lambda source code
+│   │   │   ├── index.ts        # `PreSingUp` lambda Serverless configuration
+│   │   ├── createChallenge
+│   │   │   ├── handler.ts      # `CreateChallenge` lambda source code
+│   │   │   ├── index.ts        # `CreateChallenge` lambda Serverless configuration
+│   │   ├── defineChallenge
+│   │   │   ├── handler.ts      # `DefineChallenge` lambda source code
+│   │   │   ├── index.ts        # `DefineChallenge` lambda Serverless configuration
+│   │   ├── verifyAuthChallenge
+│   │   │   ├── handler.ts      # `VerifyAuthChallenge` lambda source code
+│   │   │   ├── index.ts        # `VerifyAuthChallenge` lambda Serverless configuration
 │   │   │
 │   │   └── index.ts            # Import/export of all lambda configurations
 │   │
 │   └── libs                    # Lambda shared code
-│       └── apiGateway.ts       # API Gateway specific helpers
 │       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
 │       └── lambda.ts           # Lambda middleware
+│   └── schema.ts               # cpf schema validator
 │
 ├── package.json
 ├── serverless.ts               # Serverless service file
@@ -65,11 +79,6 @@ The project code base is mainly located within the `src` folder. This folder is 
 └── webpack.config.js           # Webpack configuration
 ```
 
-### 3rd party libraries
-
-- [json-schema-to-ts](https://github.com/ThomasAribart/json-schema-to-ts) - uses JSON-Schema definitions used by API Gateway for HTTP request validation to statically generate TypeScript types in your lambda's handler code base
-- [middy](https://github.com/middyjs/middy) - middleware engine for Node.Js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
-- [@serverless/typescript](https://github.com/serverless/typescript) - provides up-to-date TypeScript definitions for your `serverless.ts` service file
 
 ### Advanced usage
 
