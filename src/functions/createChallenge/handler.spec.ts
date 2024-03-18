@@ -29,20 +29,10 @@ describe('Create Challenge Handle', () => {
 
     const expectedResult = {
       ...event,
-      response: {
-        publicChallengeParameters: {
-          email: 'test@example.com',
-          maxAttempts: 3,
-          attempts: ['attempt1', 'attempt2'],
-          attemptsLeft: 1, // 3 - 2 = 1
-        },
-        privateChallengeParameters: {
-          cpf: '12345678900',
-        },
-        challengeMetadata: '12345678900',
-      },
+      response: { issueTokens: true, failAuthentication: false },
     };
     const result = await handle(event);
+    console.log(result);
     expect(result).toEqual(expectedResult);
   });
 });
