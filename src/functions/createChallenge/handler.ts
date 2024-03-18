@@ -1,5 +1,4 @@
 export const handle = async (event: any) => {
-  console.log(event);
   event.response.publicChallengeParameters = {
     email: event.request.userAttributes.email,
     maxAttempts: 3,

@@ -19,9 +19,7 @@ export const handle = async (event) => {
         USERNAME: cpf,
       },
     });
-
     const { AuthenticationResult } = await cognitoClient.send(command);
-
     const payload = {
       accessToken: AuthenticationResult?.AccessToken,
       refreshToken: AuthenticationResult?.RefreshToken,

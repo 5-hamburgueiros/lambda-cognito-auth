@@ -1,5 +1,4 @@
 export const handle = async (event) => {
-  console.log(event);
   event.response.issueTokens = true;
   event.response.failAuthentication = false;
   return event;
