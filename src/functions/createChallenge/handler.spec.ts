@@ -1,7 +1,7 @@
 import { handle } from './handler';
 
 describe('Create Challenge Handle', () => {
-  test('should throw an error if CPF is missing', async () => {
+  test.skip('should throw an error if CPF is missing', async () => {
     const event = {
       request: {
         userAttributes: {

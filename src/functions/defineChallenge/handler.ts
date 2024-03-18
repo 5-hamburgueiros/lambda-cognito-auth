@@ -1,6 +1,7 @@
 const MAX_ATTEMPTS = 3;
 
 export const handle = async (event) => {
+  console.log(event);
   event.response.issueTokens = true;
   event.response.failAuthentication = false;
   const attempts = event.request.session.length;

@@ -1,8 +1,5 @@
 export const handle = async (event: any) => {
-  if (!event.request.userAttributes.cpf) {
-    throw new Error('missing cpf');
-  }
-
+  console.log(event);
   event.response.publicChallengeParameters = {
     email: event.request.userAttributes.email,
     maxAttempts: 3,

@@ -33,6 +33,7 @@ export const handle = async (event) => {
       body: JSON.stringify(payload),
     };
   } catch (error) {
+    console.error(error);
     if (error instanceof z.ZodError) {
       return {
         statusCode: 400,
