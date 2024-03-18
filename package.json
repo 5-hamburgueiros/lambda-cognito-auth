@@ -5,7 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test:ci": "jest --runInBand --silent --ci --coverage "
   },
   "engines": {
     "node": ">=14.15.0"
